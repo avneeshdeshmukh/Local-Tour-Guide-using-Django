@@ -1,0 +1,148 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+
+
+<section class="container-fluid rests">
+    <div class="container top">
+        <div class="heading">
+            <h2>Places To Visit</h2>
+        </div>
+    </div>
+    <!-- Filter Form -->
+    <div class="container mb-4">
+        <form action="{% url 'touristPlaces' %}" method="GET" >
+            {% csrf_token %}
+                <div>
+                    <label class="mb-2">Category:</label><br>
+                    <div class="d-flex">
+                        <div class="form-check me-4">
+                            <input class="form-check-input" {% if "Historical" in checked %} checked {% endif %} type="checkbox" name="category" value="Historical" id="Historical">
+                            <label class="form-check-label" for="Historical">Historical</label>
+                        </div>
+                        <div class="form-check me-4">
+                            <input class="form-check-input" {% if "Shopping" in checked %} checked {% endif %}  type="checkbox" name="category" value="Shopping" id="Shopping">
+                            <label class="form-check-label" for="Shopping">Shopping</label>
+                        </div>
+                        <div class="form-check me-4">
+                            <input class="form-check-input" {% if "Cultural" in checked %} checked {% endif %} type="checkbox" name="category" value="Cultural" id="Cultural">
+                            <label class="form-check-label" for="Cultural">Cultural</label>
+                        </div>
+                        <div class="form-check me-4">
+                            <input class="form-check-input" {% if "Nature" in checked %} checked {% endif %} type="checkbox" name="category" value="Nature" id="Nature">
+                            <label class="form-check-label" for="Nature">Nature</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" {% if "Religious" in checked %} checked {% endif %} type="checkbox" name="category" value="Religious" id="Religious">
+                            <label class="form-check-label" for="Religious">Religious</label>
+                        </div>
+                    </div>
+                    <div class="d-flex">
+                        <div class="form-check me-4">
+                            <input class="form-check-input" {% if "Adventure" in checked %} checked {% endif %} type="checkbox" name="category" value="Adventure" id="Adventure">
+                            <label class="form-check-label" for="Adventure">Adventure</label>
+                        </div>
+                        <div class="form-check me-4">
+                            <input class="form-check-input" {% if "Entertainment" in checked %} checked {% endif %} type="checkbox" name="category" value="Entertainment" id="Entertainment">
+                            <label class="form-check-label" for="Entertainment">Entertainment</label>
+                        </div>
+                        <div class="form-check me-4">
+                            <input class="form-check-input" {% if "Sports" in checked %} checked {% endif %} type="checkbox" name="category" value="Sports" id="Sports">
+                            <label class="form-check-label" for="Sports">Sports</label>
+                        </div>
+                        <div class="form-check me-4">
+                            <input class="form-check-input" {% if "Art" in checked %} checked {% endif %} type="checkbox" name="category" value="Art" id="Art">
+                            <label class="form-check-label" for="Art">Art</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" {% if "Educational" in checked %} checked {% endif %} type="checkbox" name="category" value="Educational" id="Educational">
+                            <label class="form-check-label" for="Educational">Educational</label>
+                        </div>
+                    </div>
+                    <div class="d-flex">
+                        <div class="form-check">
+                            <input class="form-check-input" {% if "Eco Tourism" in checked %} checked {% endif %} type="checkbox" name="category" value="Eco Tourism" id="Eco Tourism">
+                            <label class="form-check-label" for="Eco Tourism">Eco Tourism</label>
+                        </div>
+                    </div>
+                    
+                    
+                    
+                    <!-- Add more checkboxes for other categories -->
+                </div>
+                <!-- Add more filter options here as needed -->
+                <div class="d-flex">
+                    <div>
+                        <button type="submit" class="btn btn-primary mt-4">Apply Filter</button>
+                    </div>
+                    
+                        <a style="cursor: pointer;" id="clearFilter" class="text-danger mt-5">Clear Filters</a>
+                    
+                </div>
+            
+        </form>
+    </div>
+
+    <div class="container">
+        {% if places %}
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+                
+            {% for place in places %}
+                
+            <div class="col">
+                <div class="card border-dark h-100">
+                    <img src="/media/{{place.image.image }}" class="card-img-top" alt="...">
+                    <div class="card-body ">
+                        <h5 class="card-title">{{ place.place.name }}</h5>
+                        <h6 class="card-title truncated-text">{{ place.place.address }}</h6>
+                        
+                            {{ place.place.rating }} <i class="fa-solid fa-star" style="color: #ffd700;"></i>
+                            {% if place.place.entryFees %}
+                            <p>Entry Fees :  &#x20b9;{{ place.place.entryFees }}</p>
+                            
+                            {% else %}
+                            <p>Entry Fees :  N/A</p>
+                                
+                            {% endif %}
+
+                        
+                        <p class="card-text truncated-text">{{ place.place.description }}</p>
+                        <a href="{% url 'touristPlace' id=place.place.id %}" class="btn btn-primary mt-suto">View</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+
+            {% else %}
+                <h1 class="fs-1">Sorry! No places match the provided filter....</h1>
+            
+            {% endif %}
+    </div>
+</section>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        let clearFilter = document.querySelector('#clearFilter');
+
+        clearFilter.addEventListener('click', function() {
+            
+            // Get all the checkboxes
+            let checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            
+            // Loop through each checkbox and uncheck it
+            checkboxes.forEach(function(checkbox) {
+                checkbox.checked = false;
+            });
+        });
+    });
+</script>
+{% endblock %}
+
+
+
+
+</body>
+
+</html>

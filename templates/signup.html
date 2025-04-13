@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+
+
+<section id="hero">
+  <div class="container hero-wrap">
+    <div class="quote-wrap">
+      <p>"Embark on a journey where every step whispers stories of the places you've been, the people you've met, and
+        the wonders you've seen. Let your adventures paint the canvas of your soul with vibrant memories and
+        transformative experiences. In the tapestry of life, travel weaves threads of discovery, igniting the spirit of
+        wanderlust within us and reminding us that the world is our greatest story waiting to be written."</p>
+      <em>__PuneCompass</em>
+    </div>
+    <div class="login-wrap">
+      <div class="login-wrap-box">
+        <div class="login-title">
+          <h3>Sign Up</h3>
+          <p>Create a new account</p>
+        </div>
+        <form action="{% url 'signup' %}" method="POST">
+          {% csrf_token %}
+          {{ form.as_p }}
+          <p>
+            <label for="firstname">First Name</label>
+            <input type="text" placeholder="First Name" name="first_name" required>
+          </p>
+          <p>
+            <label for="lastname">Last Name</label>
+            <input type="text" placeholder="Last Name" name="last_name" required>
+          </p>
+          <p>
+            <label for="username">Username</label>
+            <input type="text" placeholder="Username" name="username" required>
+          </p>
+          <p>
+            <label for="gender">Gender</label><br>
+            <select name="gender" id="gender" required>
+              <option value="">Select</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+              <option value="other">Other</option>
+            </select>
+          </p>
+          <p>
+            <label for="email">Email Address</label>
+            <input type="email" placeholder="name@example.com" name="email" required>
+          </p>
+          <p>
+          <div class="d-flex">
+            <label for="password">Password</label>
+          </div>
+          <input type="password" placeholder="Password" id="password" name="password"><i class="fa-solid fa-eye-slash"
+            onclick="pass()" id="pass-icon" style="cursor: pointer;"></i>
+          </p>
+          <p>
+          <div class="d-flex">
+            <label for="confirmpassword">Confirm Password</label>
+          </div>
+          <input type="password" placeholder="Confirm Password" id="confirmpassword" name="confirmpassword"><i
+            class="fa-solid fa-eye-slash" onclick="confirmpass()" id="confirmpass-icon" style="cursor: pointer;"></i>
+          </p>
+          <p>
+            <button type="submit" class="btn-submit">Sign Up</button>
+          </p>
+        </form>
+        <p class="already-registered">Already Registered? <a href="/templates/login.html">Go to Login</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script src="/static/js/main.js"></script>
+<script>
+  gender = document.getElementById('gender');
+  gender.addEventListener('change', function(event){
+    let gen=event.target;
+    if(gen.value == ''){
+      alert('Please select a gender');
+    }
+  })
+</script>
+
+{% endblock %}
+</body>
+
+</html>
